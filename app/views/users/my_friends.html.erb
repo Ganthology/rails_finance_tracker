@@ -4,7 +4,7 @@
   <%= form_tag search_friend_path, remote: true, method: :get do %>
     <div class="form-group row">
       <div class="col-sm-9 pr-0">
-        <%= text_field_tag :friend, params[:friend], placeholder: "Friend's username", autofocus: true, class: 'form-control form-control-lg'%>
+        <%= text_field_tag :friend, params[:friend], placeholder: "Friend's username or email", autofocus: true, class: 'form-control form-control-lg'%>
       </div>
       <div class="col-sm-3 pl-0">
         <%= button_tag type: :submit, class: 'btn btn-primary' do %>
@@ -14,7 +14,7 @@
     </div>
   <% end %>
 </div>
-<div id="results">
+<div id="friendlist">
   
 </div>
 <% unless @friends.empty? %>

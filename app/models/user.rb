@@ -26,4 +26,40 @@ class User < ApplicationRecord
   def can_track_stock?(ticker_symbol)
     under_stock_limit? && !stock_already_tracked?(ticker_symbol)
   end
+
+  # match method that checks all fields
+  def self.search(param)
+    # remove empty spaces around
+    param.strip!
+    # return unique matched list
+    to_send_back = (first_name_matches(param) + last_name_matches(param) + email_matches(param)).uniq
+    return nil unless to_send_back
+
+    to_send_back
+  end
+
+  # match first name
+  def self.first_name_matches(param)
+    matches('first_name', param)
+  end
+
+  # match last name
+  def self.last_name_matches(param)
+    matches('last_name', param)
+  end
+
+  # match email_matches(param)
+  def self.email_matches(param)
+    matches('email', param)
+  end
+
+  # general match method
+  def self.matches(field_name, param)
+    where("#{field_name} like ?", "%#{param}%")
+  end
+
+  # exclude current user
+  def except_current_user(users)
+    users.reject { |user| user.id == self.id }
+  end
 end
