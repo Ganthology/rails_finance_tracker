@@ -8,10 +8,13 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  # convenient method to return full name
   def full_name
     return "#{first_name} #{last_name}" if first_name || last_name
     "Anonymous"
   end       
+
+  # check database if the stocks already tracked by user
   def stock_already_tracked?(ticker_symbol)
     stock = Stock.check_db(ticker_symbol)
     return false unless stock
@@ -19,10 +22,12 @@ class User < ApplicationRecord
     stocks.where(id: stock.id).exists?
   end
 
+  # maximum stock number of 10
   def under_stock_limit?
     stocks.count < 10
   end
 
+  # check both requirement to track more stocks
   def can_track_stock?(ticker_symbol)
     under_stock_limit? && !stock_already_tracked?(ticker_symbol)
   end
