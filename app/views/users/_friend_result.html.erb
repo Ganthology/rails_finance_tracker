@@ -12,7 +12,7 @@
             <td><strong>Email: </strong><%= friend.email %></td>
             <td><strong>Actions: </strong><%= link_to 'View Profile', "#", class: "btn-sm btn-primary" %>
             <% unless current_user.friends_with?(friend.id) %>
-            <%= link_to 'Add as friend', "#", class: "btn-sm btn-primary", method: :post %>
+            <%= link_to 'Add as friend', friendships_path(friend: friend), class: "btn-sm btn-primary", method: :post %>
             <% else %>
               <span class="badge badge-secondary">Already friends</span>
             <% end %>
